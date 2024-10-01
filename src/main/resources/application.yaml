@@ -1,0 +1,16 @@
+# database 연동 설정
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/rcs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: new1234!
+
+  # spring data jpa 설정
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
