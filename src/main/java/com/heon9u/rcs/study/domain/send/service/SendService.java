@@ -1,9 +1,8 @@
 package com.heon9u.rcs.study.domain.send.service;
 
 import com.heon9u.rcs.study.domain.rcs.entity.Rcs;
-import com.heon9u.rcs.study.domain.send.dto.request.SendRequest;
 import com.heon9u.rcs.study.domain.send.entity.Send;
-import com.heon9u.rcs.study.repository.RcsRepository;
+import com.heon9u.rcs.study.repository.SendQueryRepository;
 import com.heon9u.rcs.study.repository.SendRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,20 +14,21 @@ import java.util.List;
 public class SendService {
 
     private final SendRepository sendRepository;
-    private final RcsRepository rcsRepository;
+    private final SendQueryRepository sendQueryRepository;
 
     public List<Send> findByAll() {
-
-        return sendRepository.findAll();
+        return sendQueryRepository.findByAll();
     }
 
     public Send findById(Long sendId) {
-        Send send = sendRepository.findById(sendId).orElseThrow();
-        Rcs rcs = rcsRepository.findById(send.getId()).orElseThrow();
-
+        return sendQueryRepository.findById(sendId);
     }
 
-    public void send(SendRequest sendRequest) {
-        Rcs rcs =
+    public List<Send> getSendMessageByRcs(Rcs rcs) {
+        return sendQueryRepository.findByRcsId(rcs);
+    }
+
+    public void save(Send send) {
+        sendRepository.save(send);
     }
 }

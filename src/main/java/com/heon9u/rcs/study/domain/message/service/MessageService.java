@@ -23,6 +23,10 @@ public class MessageService {
                 .orElseThrow(IllegalStateException::new);
     }
 
+    public List<Message> getMessagesById(List<Long> messageIds) {
+        return messageRepository.findAllById(messageIds);
+    }
+
     public void create(CreateMessageRequest req) {
         Message message = Message.of(req);
         messageRepository.save(message);

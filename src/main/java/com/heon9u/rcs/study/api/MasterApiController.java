@@ -17,12 +17,12 @@ public class MasterApiController {
 
     @GetMapping()
     public List<Master> list() {
-        return masterService.findByAll();
+        return masterService.getMasterList();
     }
 
     @GetMapping("/{masterId}")
     public Master findById(@PathVariable long masterId) {
-        return masterService.findById(masterId);
+        return masterService.getMaster(masterId);
     }
 
     @PostMapping("/new")

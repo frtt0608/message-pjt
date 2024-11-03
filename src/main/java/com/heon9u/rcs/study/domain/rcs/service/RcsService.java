@@ -5,9 +5,12 @@ import com.heon9u.rcs.study.domain.master.service.MasterService;
 import com.heon9u.rcs.study.domain.rcs.dto.request.CreateRcsRequest;
 import com.heon9u.rcs.study.domain.rcs.dto.request.UpdateRcsRequest;
 import com.heon9u.rcs.study.domain.rcs.entity.Rcs;
+import com.heon9u.rcs.study.global.exception.BusinessException;
 import com.heon9u.rcs.study.repository.RcsRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -24,11 +27,13 @@ public class RcsService {
 
     public Rcs findById(long rcsId) {
         return rcsRepository.findById(rcsId)
-                .orElseThrow(IllegalStateException::new);
+                .orElseThrow(() -> new BusinessException("rcs non exist."));
     }
 
+    @Transactional
     public void create(CreateRcsRequest req) {
-        Master master = masterService.findById(req.getMasterId());
+        validateDuplicatedRcsName(req.getRcsName());
+        Master master = masterService.getMaster(req.getMasterId());
         Rcs rcs = Rcs.builder()
                 .rcsName(req.getRcsName())
                 .maxCount(req.getMaxCount())
@@ -38,6 +43,14 @@ public class RcsService {
         rcsRepository.save(rcs);
     }
 
+    public void validateDuplicatedRcsName(String rcsName) {
+        Rcs rcs = rcsRepository.findByRcsName(rcsName);
+        if(!ObjectUtils.isEmpty(rcs)) {
+            throw new BusinessException("duplicated rcs name.");
+        }
+    }
+
+    @Transactional
     public void update(Long rcsId, UpdateRcsRequest updateRcsRequest) {
         Rcs rcs = findById(rcsId);
         rcs.setRcsName(updateRcsRequest.getRcsName());

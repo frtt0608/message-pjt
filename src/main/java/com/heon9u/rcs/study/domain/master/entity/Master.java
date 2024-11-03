@@ -24,10 +24,11 @@ public class Master {
     private Long id;
 
     @Getter
+    @Column(unique = true)
     private String masterName;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "master")
+    @OneToMany(mappedBy = "master", cascade = CascadeType.ALL)
     private List<Rcs> rcses = new ArrayList<>();
 
     private LocalDateTime createTime;

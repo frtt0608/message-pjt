@@ -3,6 +3,7 @@ package com.heon9u.rcs.study.domain.rcs.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heon9u.rcs.study.domain.master.entity.Master;
 import com.heon9u.rcs.study.domain.send.entity.Send;
+import com.heon9u.rcs.study.global.exception.BusinessException;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Rcs {
     private Long id;
 
     @Setter
+    @Column(unique = true)
     private String rcsName;
 
     @Setter
@@ -35,12 +37,12 @@ public class Rcs {
 
     private LocalDateTime createTime;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "master_id")
     private Master master;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "rcs")
+    @OneToMany(mappedBy = "rcs", cascade = CascadeType.ALL)
     private List<Send> sends = new ArrayList<>();
 
     @Builder
@@ -50,4 +52,16 @@ public class Rcs {
         this.master = master;
     }
 
+    public void checkRemainCount(List<Send> completedSendMessage, int messageToSendCount) {
+        int completedCount = messageToSendCount;
+        for(Send send: completedSendMessage) {
+            completedCount += send.getSendMessages().size();
+
+            if(maxCount <= completedCount) break;
+        }
+
+        if(maxCount <= completedCount) {
+            throw new BusinessException("over max Count!! " + "maxCount: " + maxCount + ", completedCount: " + completedCount);
+        }
+    }
 }
