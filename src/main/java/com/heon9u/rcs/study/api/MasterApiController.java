@@ -21,14 +21,13 @@ public class MasterApiController {
     }
 
     @GetMapping("/{masterId}")
-    public Master findById(@PathVariable long masterId) {
+    public Master findById(@PathVariable(name = "masterId") long masterId) {
         return masterService.getMaster(masterId);
     }
 
     @PostMapping("/new")
     public void create(@RequestBody CreateMasterRequest req) {
-        Master master = new Master(req.getMasterName());
-        masterService.create(master);
+        masterService.create(req);
     }
 
 

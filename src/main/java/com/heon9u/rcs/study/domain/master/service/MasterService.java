@@ -1,5 +1,6 @@
 package com.heon9u.rcs.study.domain.master.service;
 
+import com.heon9u.rcs.study.domain.master.dto.request.CreateMasterRequest;
 import com.heon9u.rcs.study.domain.master.entity.Master;
 import com.heon9u.rcs.study.global.exception.BusinessException;
 import com.heon9u.rcs.study.repository.MasterRepository;
@@ -27,7 +28,8 @@ public class MasterService {
     }
 
     @Transactional
-    public void create(Master master) {
+    public void create(CreateMasterRequest req) {
+        Master master = new Master(req.getMasterName());
         validateDuplicatedMasterName(master);
         masterRepository.save(master);
     }
