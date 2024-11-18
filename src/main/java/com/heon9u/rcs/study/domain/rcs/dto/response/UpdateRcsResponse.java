@@ -2,7 +2,9 @@ package com.heon9u.rcs.study.domain.rcs.dto.response;
 
 import com.heon9u.rcs.study.domain.rcs.entity.Rcs;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class UpdateRcsResponse {
 
     private Long rcsId;
