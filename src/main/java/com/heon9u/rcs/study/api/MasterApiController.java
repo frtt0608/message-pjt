@@ -26,10 +26,8 @@ public class MasterApiController {
     }
 
     @PostMapping("/new")
-    public void create(@RequestBody CreateMasterRequest req) {
-        masterService.create(req);
+    public Long create(@RequestBody CreateMasterRequest req) {
+        return masterService.create(req);
     }
-
-
 
 }

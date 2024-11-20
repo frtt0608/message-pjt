@@ -28,10 +28,12 @@ public class MasterService {
     }
 
     @Transactional
-    public void create(CreateMasterRequest req) {
+    public Long create(CreateMasterRequest req) {
         Master master = new Master(req.getMasterName());
         validateDuplicatedMasterName(master);
         masterRepository.save(master);
+
+        return master.getId();
     }
 
     private void validateDuplicatedMasterName(Master master) {
