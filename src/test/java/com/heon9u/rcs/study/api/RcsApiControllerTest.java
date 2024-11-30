@@ -71,8 +71,8 @@ class RcsApiControllerTest {
     void update() throws Exception {
         long id = 1L;
         UpdateRcsRequest urr = UpdateRcsRequest.builder()
-                .maxCount(200L)
                 .rcsName("testRcs2")
+                .maxCount(200L)
                 .build();
 
         mockMvc.perform(

@@ -6,12 +6,14 @@ import com.heon9u.rcs.study.global.exception.BusinessException;
 import com.heon9u.rcs.study.repository.MasterRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class MasterService {
@@ -31,7 +33,7 @@ public class MasterService {
     public Long create(CreateMasterRequest req) {
         Master master = new Master(req.getMasterName());
         validateDuplicatedMasterName(master);
-        masterRepository.save(master);
+        master = masterRepository.save(master);
 
         return master.getId();
     }

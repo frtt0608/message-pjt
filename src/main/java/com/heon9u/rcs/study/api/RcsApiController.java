@@ -22,8 +22,8 @@ public class RcsApiController {
         return rcsService.findByAll();
     }
 
-    @GetMapping("/{rcsId}")
-    public Rcs findById(@PathVariable long rcsId) {
+    @GetMapping("/{id}")
+    public Rcs findById(@PathVariable(name = "id") long rcsId) {
         return rcsService.findById(rcsId);
     }
 
@@ -32,8 +32,8 @@ public class RcsApiController {
         rcsService.create(req);
     }
 
-    @PutMapping("/update/{rcsId}")
-    public UpdateRcsResponse update(@PathVariable Long rcsId,
+    @PutMapping("/update/{id}")
+    public UpdateRcsResponse update(@PathVariable(name = "id") Long rcsId,
                                     UpdateRcsRequest updateRcsRequest) {
 
         rcsService.update(rcsId, updateRcsRequest);

@@ -5,23 +5,27 @@ import com.heon9u.rcs.study.domain.master.dto.request.CreateMasterRequest;
 import com.heon9u.rcs.study.domain.master.entity.Master;
 import com.heon9u.rcs.study.repository.MasterRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
+
 @TestWithDataRollback
 class MasterServiceTest {
 
     @InjectMocks
-    MasterService masterService;
+    private MasterService masterService;
 
     @Mock
-    MasterRepository masterRepository;
+    private MasterRepository masterRepository;
 
     @Test
     void create() {
@@ -29,7 +33,7 @@ class MasterServiceTest {
         CreateMasterRequest cmr = new CreateMasterRequest("test_master");
         master.setId(1L);
 
-        given(masterRepository.save(master)).willReturn(master);
+        given(masterRepository.save(any(Master.class))).willReturn(master);
 
         Long id = masterService.create(cmr);
 
@@ -40,16 +44,17 @@ class MasterServiceTest {
     @Test
     void getMaster() {
         Master master = new Master("test_master");
-        CreateMasterRequest cmr = new CreateMasterRequest("test_master");
+//        CreateMasterRequest cmr = new CreateMasterRequest("test_master");
         master.setId(1L);
 
-        given(masterRepository.save(master)).willReturn(master);
+//        given(masterRepository.save(any(Master.class))).willReturn(master);
+        given(masterRepository.findById(anyLong())).willReturn(Optional.of(master));
 
-        Long id = masterService.create(cmr);
-        Master masterTemp = masterService.getMaster(id);
+//        Long id = masterService.create(cmr);
+        Master masterTemp = masterService.getMaster(1L);
 
-        assertEquals(cmr.getMasterName(), masterTemp.getMasterName());
-        verify(masterRepository, times(1)).save(any(Master.class));
+        assertEquals(master.getMasterName(), masterTemp.getMasterName());
+//        verify(masterRepository, times(1)).save(any(Master.class));
     }
 
     @Test
@@ -61,7 +66,6 @@ class MasterServiceTest {
         given(masterRepository.findAll()).willReturn(masterList);
 
         List<Master> result = masterService.getMasterList();
-
 
         assertEquals(result.size(), masterList.size());
     }
