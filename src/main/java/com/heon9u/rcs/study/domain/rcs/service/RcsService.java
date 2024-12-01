@@ -31,7 +31,7 @@ public class RcsService {
     }
 
     @Transactional
-    public void create(CreateRcsRequest req) {
+    public Long create(CreateRcsRequest req) {
         validateDuplicatedRcsName(req.getRcsName());
         Master master = masterService.getMaster(req.getMasterId());
         Rcs rcs = Rcs.builder()
@@ -40,7 +40,8 @@ public class RcsService {
                 .master(master)
                 .build();
 
-        rcsRepository.save(rcs);
+        rcs = rcsRepository.save(rcs);
+        return rcs.getId();
     }
 
     public void validateDuplicatedRcsName(String rcsName) {
@@ -55,5 +56,6 @@ public class RcsService {
         Rcs rcs = findById(rcsId);
         rcs.setRcsName(updateRcsRequest.getRcsName());
         rcs.setMaxCount(updateRcsRequest.getMaxCount());
+        rcsRepository.save(rcs);
     }
 }

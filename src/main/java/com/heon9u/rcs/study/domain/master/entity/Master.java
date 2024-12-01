@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heon9u.rcs.study.domain.rcs.entity.Rcs;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -17,10 +18,11 @@ import java.util.List;
         initialValue = 1,
         allocationSize = 10
 )
+@NoArgsConstructor
 public class Master {
 
     @Getter @Setter
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY,
                         generator = "MASTER_SEQ")
     @Column(name = "master_id")
     private Long id;

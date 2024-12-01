@@ -5,10 +5,8 @@ import com.heon9u.rcs.study.domain.master.dto.request.CreateMasterRequest;
 import com.heon9u.rcs.study.domain.master.entity.Master;
 import com.heon9u.rcs.study.repository.MasterRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,17 +42,13 @@ class MasterServiceTest {
     @Test
     void getMaster() {
         Master master = new Master("test_master");
-//        CreateMasterRequest cmr = new CreateMasterRequest("test_master");
         master.setId(1L);
 
-//        given(masterRepository.save(any(Master.class))).willReturn(master);
         given(masterRepository.findById(anyLong())).willReturn(Optional.of(master));
 
-//        Long id = masterService.create(cmr);
         Master masterTemp = masterService.getMaster(1L);
 
         assertEquals(master.getMasterName(), masterTemp.getMasterName());
-//        verify(masterRepository, times(1)).save(any(Master.class));
     }
 
     @Test

@@ -23,6 +23,7 @@ import java.util.List;
 @Getter
 public class Rcs {
 
+    @Setter
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE,
                         generator = "RCS_SEQ")
     @Column(name = "rcs_id")
