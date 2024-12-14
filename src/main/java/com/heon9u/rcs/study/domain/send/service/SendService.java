@@ -28,7 +28,7 @@ public class SendService {
         return sendQueryRepository.findByRcsId(rcs);
     }
 
-    public void save(Send send) {
-        sendRepository.save(send);
+    public Send save(Send send) {
+        return sendRepository.save(send);
     }
 }

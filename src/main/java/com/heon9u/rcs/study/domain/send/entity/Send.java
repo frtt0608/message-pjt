@@ -23,6 +23,7 @@ import java.util.List;
 @Getter
 public class Send {
 
+    @Setter
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE,
                         generator = "SEND_SEQ")
     private Long id;

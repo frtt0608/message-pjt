@@ -27,7 +27,8 @@ public class Message {
     private LocalDateTime createTime;
 
     @Builder
-    private Message(String body, String title) {
+    private Message(Long id, String body, String title) {
+        this.id = id;
         this.body = body;
         this.title = title;
     }
